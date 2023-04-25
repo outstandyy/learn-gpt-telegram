@@ -18,6 +18,7 @@ bot.on(message('voice'), async (ctx) => {
 		const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id);
 		const userId = String(ctx.message.from.id);
 		const oggPath = await ogg.create(link.href, userId);
+		const mp3Path = await ogg.toMP3(oggPath, userId);
 		console.log(link.href);
 		await ctx.reply(JSON.stringify(link, null, 2));
 	} catch (e) {

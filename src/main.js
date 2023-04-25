@@ -1,6 +1,7 @@
 import { Telegraf } from 'telegraf';
 import { message } from 'telegraf/filters';
 import config from 'config';
+import { ogg } from './ogg.js';
 
 const bot = new Telegraf(config.get('TELEGRAM_TOKEN'));
 
@@ -16,6 +17,7 @@ bot.on(message('voice'), async (ctx) => {
 	try {
 		const link = await ctx.telegram.getFileLink(ctx.message.voice.file_id);
 		const userId = String(ctx.message.from.id);
+		const oggPath = await ogg.create(link.href, userId);
 		console.log(link.href);
 		await ctx.reply(JSON.stringify(link, null, 2));
 	} catch (e) {
